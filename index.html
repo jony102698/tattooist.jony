@@ -1,0 +1,1328 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>tattooist.jony 認領圖價格試算</title>
+  <style>
+    /* ================= 全域設定 ================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background-color: #ffffff;
+      color: #111111;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ================= 頂部橫幅與頭像 ================= */
+    .banner-container {
+      position: relative;
+      background-color: #1a1a1a;
+      height: 120px;
+      width: 100%;
+    }
+
+    .avatar-wrapper {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      border: 3px solid #ffffff;
+      overflow: hidden;
+      background-color: #f0f0f0;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    }
+
+    .avatar-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profile-header {
+      padding-top: 48px;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 16px;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .main-title-en {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      line-height: 1.2;
+    }
+
+    .main-title-zh {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-top: 3px;
+      margin-bottom: 10px;
+    }
+
+    /* 活動說明文字區塊 */
+    .intro-box {
+      font-size: 13.5px;
+      color: #333333;
+      line-height: 1.7;
+      text-align: left;
+      background-color: #f9f9f9;
+      border: 1px solid #ebebeb;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .intro-box p {
+      margin-bottom: 6px;
+    }
+
+    .intro-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Instagram 按鈕 */
+    .ig-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      max-width: 320px;
+      background-color: #111111;
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 20px;
+      margin: 4px auto 10px;
+      transition: opacity 0.2s;
+    }
+
+    .ig-btn:hover {
+      opacity: 0.88;
+    }
+
+    .sub-prompt {
+      font-size: 12.5px;
+      color: #888888;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    /* ================= 頂部三大分頁標籤 ================= */
+    .tabs-bar {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      border-bottom: 1px solid #eeeeee;
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      background: #ffffff;
+      z-index: 50;
+    }
+
+    .tab-item {
+      padding: 14px 4px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #888888;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s ease;
+    }
+
+    .tab-item.active {
+      color: #111111;
+      font-weight: 700;
+    }
+
+    .tab-item.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2.5px;
+      background-color: #111111;
+      border-radius: 2px;
+    }
+
+    /* ================= 水平滑動容器 ================= */
+    .swipe-container {
+      display: flex;
+      width: 100vw;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .swipe-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .panel {
+      flex: 0 0 100vw;
+      width: 100vw;
+      scroll-snap-align: start;
+      min-height: 80vh;
+      box-sizing: border-box;
+    }
+
+    /* ================= 面板 1：作品列表 (雙欄 Behance 風格) ================= */
+    .gallery-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 16px 12px 60px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 10px;
+      row-gap: 14px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      border: 1px solid #f2f2f2;
+      transition: transform 0.15s ease;
+    }
+
+    .card:active {
+      transform: scale(0.985);
+    }
+
+    .card-img-box {
+      width: 100%;
+      position: relative;
+      padding-top: 100%;
+      background-color: #f7f7f7;
+    }
+
+    .card-img-box img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-info {
+      padding: 10px 10px;
+      background-color: #ffffff;
+    }
+
+    .card-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #111111;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .divider-block {
+      grid-column: 1 / -1;
+      padding: 24px 8px 12px;
+      text-align: center;
+    }
+
+    .divider-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: #222222;
+      line-height: 1.5;
+    }
+
+    .divider-link {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0057ff;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      background-color: #f4f7ff;
+    }
+
+    /* ================= 面板 2：資訊頁 ================= */
+    .info-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 24px 20px 80px;
+    }
+
+    .info-section {
+      margin-bottom: 26px;
+    }
+
+    .info-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111111;
+      margin-bottom: 8px;
+    }
+
+    .location-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #333333;
+    }
+
+    .location-icon {
+      font-size: 16px;
+    }
+
+    .terms-card {
+      background-color: #f9f9fa;
+      border: 1px solid #ebebeb;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .terms-link {
+      color: #0057ff;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: underline;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .rules-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .rules-list li {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #333333;
+      margin-bottom: 6px;
+    }
+
+    .rules-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .line-notice-box {
+      background-color: #fdfaf3;
+      border: 1px solid #faeacc;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      color: #8c6b1f;
+      line-height: 1.6;
+    }
+
+    .line-btn-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background-color: #06c755;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 14.5px;
+      padding: 13px 0;
+      border-radius: 25px;
+      box-shadow: 0 3px 8px rgba(6, 199, 85, 0.2);
+      transition: opacity 0.2s ease;
+    }
+
+    .line-btn-info:hover {
+      opacity: 0.9;
+    }
+
+    /* ================= 面板 3：價格試算頁 ================= */
+    .calc-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px 16px 80px;
+    }
+
+    .warning-box {
+      background-color: #fff8f8;
+      border: 1px solid #ffdcdc;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+    }
+
+    .warning-text {
+      font-size: 12.5px;
+      color: #c62828;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    .calc-intro {
+      font-size: 13.5px;
+      color: #444444;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .line-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background-color: #06c755;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px 0;
+      border-radius: 25px;
+      margin-bottom: 22px;
+      box-shadow: 0 3px 8px rgba(6, 199, 85, 0.2);
+    }
+
+    .stats-calculator-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .stat-card {
+      background-color: #f7f7f8;
+      border-radius: 12px;
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 1px solid #eaeaea;
+      transition: opacity 0.2s ease;
+    }
+
+    .stat-card.disabled-card {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #666666;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .stat-sub-hint {
+      font-size: 10.5px;
+      color: #888888;
+      font-weight: 400;
+      margin-top: 2px;
+      letter-spacing: -0.2px;
+    }
+
+    .stat-select {
+      width: 100%;
+      font-size: 13px;
+      font-weight: 700;
+      color: #111111;
+      background: transparent;
+      border: none;
+      text-align: center;
+      text-align-last: center;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .stat-select:disabled {
+      color: #888888;
+      cursor: not-allowed;
+    }
+
+    .feature-hint-box {
+      background-color: #f2f7ff;
+      border: 1px solid #d4e3fc;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      color: #1a56db;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      display: none;
+      text-align: left;
+    }
+
+    /* AI 估價結果卡片 */
+    .result-card {
+      background-color: #111111;
+      color: #ffffff;
+      border-radius: 14px;
+      padding: 20px 16px;
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    .result-sub {
+      font-size: 12.5px;
+      color: #999999;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .original-price-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 13.5px;
+      color: #777777;
+      text-decoration: line-through;
+      margin-bottom: 4px;
+    }
+
+    .discount-price-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .result-price-big {
+      font-size: 26px;
+      font-weight: 800;
+      color: #4ade80;
+      letter-spacing: -0.3px;
+    }
+
+    /* 尚未選齊時的引導字體樣式 */
+    .result-price-prompt {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: #cccccc;
+      line-height: 1.6;
+      padding: 6px 10px;
+    }
+
+    .discount-badge {
+      background: #e11d48;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    .claimed-status-box {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ef4444;
+      padding: 10px 0;
+      display: none;
+    }
+
+    .body-warning {
+      background-color: #2b2b2b;
+      color: #ffb74d;
+      font-size: 12px;
+      line-height: 1.6;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      text-align: left;
+      display: none;
+    }
+
+    .final-price-notice {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #777777;
+      margin-top: 18px;
+      letter-spacing: 0.3px;
+    }
+
+    .screenshot-guide-box {
+      background-color: #f4f6fa;
+      border: 1px dashed #2962ff;
+      border-radius: 10px;
+      padding: 12px 14px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a4db8;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+  </style>
+
+
+  <!-- 頂部橫幅與頭像 (avatar.jpg) -->
+  <div class="banner-container">
+    <div class="avatar-wrapper">
+      <img src="images/avatar.jpg" alt="tattooist jony" onerror="this.src='https://via.placeholder.com/150?text=Jony'" />
+    </div>
+  </div>
+
+  <div class="profile-header">
+    <div class="main-title-en">tattooist.jony</div>
+    <div class="main-title-zh">認領圖價格試算</div>
+
+    <!-- 活動說明文案 -->
+    <div class="intro-box">
+      <p>認領圖優惠活動主要是因為我很想刺</p>
+      <p>快年底了，希望認領圖不會放到過年</p>
+      <p>再加上我生日月到了 所以優惠大放送中！</p>
+      <p>架網站我架了很久，主要是提供價格試算</p>
+      <p>老實說這部分很難準確估價，畢竟每個圖的尺寸都不一樣。</p>
+      <p>如果你對於作品有興趣都歡迎到我的instagram上看更多。</p>
+      <p>如果你想包大面積我也超歡迎來討論模特(互惠價格)</p>
+    </div>
+
+    <!-- Instagram 連結按鈕 -->
+    <a class="ig-btn" href="https://www.instagram.com/tattooist.jony?mdxt=M243b3NmaDkzMHBy" target="_blank" rel="noopener noreferrer">
+      <span>📷 點此前​往 Instagram 看更多作品</span>
+    </a>
+
+    <!-- 下方查看提示 -->
+    <div class="sub-prompt">認領圖可點擊下方查看 ↓</div>
+  </div>
+
+  <!-- 分頁選單 (作品 / 資訊 / 價格試算) -->
+  <div class="tabs-bar">
+    <div class="tab-item active" id="tab-artworks" onclick="goToSlide(0)">作品</div>
+    <div class="tab-item" id="tab-info" onclick="goToSlide(1)">資訊</div>
+    <div class="tab-item" id="tab-calc" onclick="goToSlide(2)">價格試算</div>
+  </div>
+
+  <!-- 橫向滑動區塊 -->
+  <div class="swipe-container" id="swipe-container">
+
+    <!-- ================= 頁面 1：作品列表 ================= -->
+    <div class="panel">
+      <div class="gallery-container">
+        <div class="grid">
+
+          <a class="card" href="https://www.behance.net/gallery/254244035/-oil-painting-tattoo-available" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p1.jpg" alt="芭蕾舞者與星空" /></div>
+            <div class="card-info"><div class="card-title">oil painting 芭蕾舞者與星空</div></div>
+          </a>
+
+          <a class="card" href="https://www.behance.net/gallery/218286617/-design-available" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p2.jpg" alt="古典天使金色畫框" /></div>
+            <div class="card-info"><div class="card-title">oil painting 古典天使金色畫框</div></div>
+          </a>
+
+          <a class="card" href="https://www.behance.net/gallery/216434609/Color-available" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p3.jpg" alt="古典油畫人物天使橢圓" /></div>
+            <div class="card-info"><div class="card-title">oil painting 古典油畫人物天使橢圓</div></div>
+          </a>
+
+          <a class="card" href="https://www.behance.net/gallery/216433961/-Color-available" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p4.jpg" alt="油畫風景三拼長條" /></div>
+            <div class="card-info"><div class="card-title">oil painting 油畫風景三拼長條</div></div>
+          </a>
+
+          <div class="divider-block">
+            <div class="divider-text">油畫作品我全都想刺！</div>
+          </div>
+
+          <a class="card" href="https://www.behance.net/gallery/216531343/-Movie-available" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p5.jpg" alt="電影x油畫" /></div>
+            <div class="card-info"><div class="card-title">電影x油畫 movie</div></div>
+          </a>
+
+          <a class="card" href="https://www.behance.net/gallery/255960505/Harry-Potter-available-design-tattoo" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p6.jpg" alt="Harry Potter" /></div>
+            <div class="card-info"><div class="card-title">Harry Potter Movie</div></div>
+          </a>
+
+          <div class="divider-block">
+            <div class="divider-text">動畫角色可以調整，或改為客製圖案。</div>
+          </div>
+
+          <a class="card" href="https://www.behance.net/gallery/230115599/-x-oil-painting-Available-design" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p7.jpg" alt="動畫 x 油畫 (1)" /></div>
+            <div class="card-info"><div class="card-title">動畫 x 油畫</div></div>
+          </a>
+
+          <a class="card" href="https://www.behance.net/gallery/250879395/-Retro-style-available" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p8.jpg" alt="復古 style" /></div>
+            <div class="card-info"><div class="card-title">復古 style</div></div>
+          </a>
+
+          <a class="card" href="https://www.behance.net/gallery/217341987/-color-available" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p9.jpg" alt="動畫 x 油畫 (2)" /></div>
+            <div class="card-info"><div class="card-title">動畫 x 油畫</div></div>
+          </a>
+
+          <a class="card" href="https://www.behance.net/gallery/216433631/-Flowers-available" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p10.jpg" alt="小天使 x 花" /></div>
+            <div class="card-info"><div class="card-title">小天使 x 花</div></div>
+          </a>
+
+          <div class="divider-block">
+            <div class="divider-text">宮崎駿或動漫大優惠!</div>
+          </div>
+
+          <a class="card" href="https://www.behance.net/gallery/216442817/-Hayao-Miyazaki-available" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p11.jpg" alt="宮崎駿 x 彩色" /></div>
+            <div class="card-info"><div class="card-title">宮崎駿 x 彩色</div></div>
+          </a>
+
+          <a class="card" href="https://www.behance.net/gallery/216495251/-Anime-available" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p12.jpg" alt="動漫 x 可客製" /></div>
+            <div class="card-info"><div class="card-title">動漫 x 可客製</div></div>
+          </a>
+
+          <a class="card" href="https://www.behance.net/gallery/256146457/Winnie-the-pooh-design-available" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p13.jpg" alt="小熊維尼 x 可作組圖" /></div>
+            <div class="card-info"><div class="card-title">小熊維尼 x 可作組圖</div></div>
+          </a>
+
+          <a class="card" href="https://www.behance.net/gallery/220887627/-Snoopy-design-available-tattoo" target="_blank" rel="noopener noreferrer">
+            <div class="card-img-box"><img src="images/p14.jpg" alt="史努比 x 可作組圖" /></div>
+            <div class="card-info"><div class="card-title">史努比 x 可作組圖</div></div>
+          </a>
+
+          <div class="divider-block">
+            <a class="divider-link" href="https://www.behance.net/373e8eba" target="_blank" rel="noopener noreferrer">
+              <span>其他認領圖請查閱此 ➔</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 頁面 2：資訊頁 ================= -->
+    <div class="panel">
+      <div class="info-container">
+        
+        <div class="info-section">
+          <div class="info-title">位置</div>
+          <div class="location-row">
+            <span class="location-icon">📍</span>
+            <span>Taiwan Taipei</span>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="info-title">預約須知</div>
+          <div class="terms-card">
+            <a class="terms-link" href="https://docs.google.com/document/d/1-D5K0rk2xVC9WYGP1bz29F2ZisiTmBP3KK-iOrhARQk/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer">
+              點此開啟預約須知 ↗
+            </a>
+            <ul class="rules-list">
+              <li>🔺請勿盜圖，有喜歡就找我刺。</li>
+              <li>🔺未滿十八歲不可預約。</li>
+              <li>🔺報價採 現場/線上通話 兩種方式，不接受訊息報價。</li>
+              <li>🔺詳閱刺青注意事項 (官方line上查看)。</li>
+              <li>🔺預約皆須支付定金後，才算預約完成。</li>
+              <li>🔺孕婦、皮膚傳染病、傳染病、心臟病、肝病、糖尿病、愛滋病、蟹足腫等症狀皆不可預約。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="info-title">官方 LINE 諮詢</div>
+          <div class="line-notice-box">
+            💡 <strong>預約提醒：</strong>加入官方 LINE 詢問價格或檔期前，請務必先詳細閱讀並確認上方的「預約須知規範」唷！
+          </div>
+          <a class="line-btn-info" href="https://page.line.me/inu2609e" target="_blank" rel="noopener noreferrer">
+            <span>💬 前往官方 LINE 詢問</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ================= 頁面 3：價格試算頁 ================= -->
+    <div class="panel">
+      <div class="calc-container">
+
+        <div class="warning-box">
+          <div class="warning-text">#此網站為活動價格粗估試算使用</div>
+          <div class="warning-text">#並不能預約、訂製刺青服務</div>
+          <div class="warning-text">#所有認領圖皆為jony著作權。並不開放給任何人使用。</div>
+        </div>
+
+        <p class="calc-intro">
+          計算價格方式僅為大略的估價，結合AI的粗估價格，不是最準確的價格。<br>
+          查詢價格最精準的方式是傳訊息至我的官方LINE詢問。
+        </p>
+
+        <a class="line-btn" href="https://page.line.me/inu2609e" target="_blank" rel="noopener noreferrer">
+          <span>💬 LINE連結請點此詢問</span>
+        </a>
+
+        <!-- 四格面板 (初始皆為 -) -->
+        <div class="stats-calculator-grid">
+          
+          <!-- 左上格：認領圖相冊 -->
+          <div class="stat-card" id="card-album">
+            <select class="stat-select" id="album-select" onchange="onAlbumChange();">
+              <option value="">-</option>
+              <option value="1">芭蕾舞者與星空</option>
+              <option value="2">古典天使金色畫框</option>
+              <option value="3">古典油畫人物天使橢圓</option>
+              <option value="4">油畫風景三拼長條</option>
+              <option value="5">電影x油畫</option>
+              <option value="6">Harry Potter</option>
+              <option value="7">動畫x油畫 (1)</option>
+              <option value="8">復古style</option>
+              <option value="9">動畫x油畫 (2)</option>
+              <option value="10">小天使x花</option>
+              <option value="11">宮崎駿x彩色</option>
+              <option value="12">動漫x可客製</option>
+              <option value="13">小熊維尼</option>
+              <option value="14">史努比</option>
+            </select>
+            <div class="stat-label">認領圖相冊</div>
+          </div>
+
+          <!-- 右上格：刺青部位 -->
+          <div class="stat-card" id="card-part">
+            <select class="stat-select" id="part-select" onchange="calculatePrice();">
+              <option value="">-</option>
+              <option value="前臂">前臂</option>
+              <option value="上臂">上臂</option>
+              <option value="小腿">小腿</option>
+              <option value="大腿">大腿</option>
+              <option value="胸前(鎖骨)">胸前(鎖骨)</option>
+              <option value="肩背(斜方)">肩背(斜方)</option>
+              <option value="後背">後背</option>
+              <option value="側腰">側腰</option>
+              <option value="腹">腹</option>
+              <option value="其他部位">其他部位</option>
+            </select>
+            <div class="stat-label">刺青部位</div>
+          </div>
+
+          <!-- 左下格：認領圖選擇 -->
+          <div class="stat-card" id="card-page">
+            <select class="stat-select" id="page-select" onchange="onPageChange();">
+              <option value="">-</option>
+            </select>
+            <div class="stat-label">認領圖選擇</div>
+            <div class="stat-sub-hint">(請查看你想要的圖在相簿第幾張)</div>
+          </div>
+
+          <!-- 右下格：預估尺寸 -->
+          <div class="stat-card" id="card-size">
+            <select class="stat-select" id="size-select" onchange="calculatePrice();">
+              <option value="">-</option>
+            </select>
+            <div class="stat-label">預估尺寸</div>
+          </div>
+
+        </div>
+
+        <!-- 刺青師建議理想尺寸與特色提示條 -->
+        <div class="feature-hint-box" id="feature-hint-box"></div>
+
+        <!-- AI 估價結果卡片 -->
+        <div class="result-card">
+          <div class="result-sub">AI預估價格區間</div>
+          
+          <div class="original-price-row" id="original-price-row" style="display: none;">
+            <span>原價</span>
+            <span id="original-price-text"></span>
+          </div>
+
+          <div class="discount-price-row" id="discount-price-row">
+            <span class="result-price-prompt" id="discount-price-text">選擇你要的圖以及選項後將會為你計算價格</span>
+            <span class="discount-badge" id="discount-badge" style="display: none;">9折優惠</span>
+          </div>
+
+          <div class="claimed-status-box" id="claimed-status-box">已認領</div>
+
+          <div class="body-warning" id="body-warning-box">
+            ⚠️ <strong>部位評估提醒：</strong>除了手臂或腿部之外的部位，需與 jony 確定可行度與否。
+          </div>
+        </div>
+
+        <div class="final-price-notice">實際價格以實際報價為主。</div>
+
+        <div class="screenshot-guide-box">
+          📸 快速報價方式請截圖此頁傳給我，並附上你想刺的認領圖截圖
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ================= 滑動與標籤切換 =================
+    const container = document.getElementById("swipe-container");
+    const tabs = [
+      document.getElementById("tab-artworks"),
+      document.getElementById("tab-info"),
+      document.getElementById("tab-calc")
+    ];
+
+    function goToSlide(index) {
+      container.scrollTo({
+        left: window.innerWidth * index,
+        behavior: "smooth"
+      });
+    }
+
+    container.addEventListener("scroll", () => {
+      const scrollPos = container.scrollLeft;
+      const index = Math.round(scrollPos / window.innerWidth);
+      tabs.forEach((tab, i) => {
+        if (i === index) {
+          tab.classList.add("active");
+        } else {
+          tab.classList.remove("active");
+        }
+      });
+    });
+
+    // ================= DOM 元素 =================
+    const albumSelect = document.getElementById("album-select");
+    const pageSelect = document.getElementById("page-select");
+    const sizeSelect = document.getElementById("size-select");
+    const partSelect = document.getElementById("part-select");
+    const cardPart = document.getElementById("card-part");
+    const cardSize = document.getElementById("card-size");
+
+    const originalPriceRow = document.getElementById("original-price-row");
+    const originalPriceText = document.getElementById("original-price-text");
+    const discountPriceRow = document.getElementById("discount-price-row");
+    const discountPriceText = document.getElementById("discount-price-text");
+    const discountBadge = document.getElementById("discount-badge");
+    const claimedStatusBox = document.getElementById("claimed-status-box");
+
+    const bodyWarningBox = document.getElementById("body-warning-box");
+    const featureHintBox = document.getElementById("feature-hint-box");
+
+    // ================= 頁碼清單配置 =================
+    const albumPagesConfig = {
+      1: ["頁1 顏料", "頁1 星空長條底圖", "頁2", "頁3", "頁4", "頁5"],
+      2: ["頁2 其他小圖", "頁3", "頁4", "頁5", "頁6", "頁7", "頁8", "頁9", "頁10", "頁11", "頁12"],
+      3: ["頁3", "頁4", "頁5", "頁6", "頁7", "頁8", "頁9", "頁10", "頁11"],
+      4: ["頁1", "頁3", "頁4", "頁5", "頁6", "頁7", "頁8", "頁9", "頁10", "頁11", "頁12", "頁13", "頁14"],
+      5: ["頁2", "頁3", "頁4", "頁5"],
+      6: ["頁2", "頁3", "頁4", "頁5", "頁6", "頁7"],
+      7: ["頁1", "頁2", "頁3", "頁4", "頁5", "頁6", "頁8", "頁9", "頁10", "頁11"],
+      8: ["頁1 其他小圖", "頁2", "頁3", "頁4"],
+      9: ["頁2", "頁3", "頁4", "頁5", "頁6", "頁7", "頁8", "頁9"],
+      10: ["頁2", "頁3", "頁4", "頁5", "頁6", "頁7", "頁9", "頁10"],
+      11: ["頁1", "頁2", "頁3", "頁5", "頁6", "頁7", "頁9", "頁10", "頁11", "頁12", "頁14", "頁15", "頁16", "頁18", "頁19", "頁21", "頁22", "頁23", "頁24", "頁25", "頁26", "頁27"],
+      12: ["頁1", "頁2", "頁3", "頁4", "頁5", "頁6", "頁7"],
+      13: ["頁1 其他小圖", "頁2", "頁3", "頁4", "頁5"],
+      14: ["頁2", "頁3", "頁4", "頁5", "頁6", "頁7", "頁8"]
+    };
+
+    function getRule(album, page) {
+      if (!album || !page) return null;
+
+      if (album === "1") {
+        if (page === "頁1 顏料") return { min: 7, max: 10, ideal: "8", anchor: { cm: 8, p: 18 }, minP: 17, maxP: 20 };
+        if (page === "頁1 星空長條底圖") return { min: 6.5, max: 10, ideal: "8.5", minP: 17, maxP: 21 };
+        if (page === "頁2") return { min: 6, max: 10, ideal: "8~8.5 / 6.5", anchor: { cm: 8.5, p: 21 }, minP: 20, maxP: 24 };
+        if (page === "頁3") return { min: 6, max: 9, ideal: "7.5", minP: 19, maxP: 22 };
+        if (page === "頁4" || page === "頁5") return { min: 7, max: 10, ideal: "8", minP: 15, maxP: 18 };
+      }
+
+      if (album === "2") {
+        if (page === "頁2 其他小圖") return { isSmallPic: true, minP: 6, maxP: 11 };
+        if (page === "頁3") return { min: 5.5, max: 8, ideal: "6.5", minP: 22, maxP: 25 };
+        if (page === "頁4") return { isClaimed: true, ideal: "6.5" };
+        if (page === "頁5") return { min: 5.5, max: 8, ideal: "6.5", minP: 23, maxP: 26 };
+        if (page === "頁6") return { min: 5.5, max: 8.5, ideal: "7", minP: 22, maxP: 28 };
+        if (page === "頁7") return { min: 3, max: 5, ideal: "3~3.5", minP: 8, maxP: 10 };
+        if (page === "頁8") return { min: 6.5, max: 9, ideal: "7", minP: 17, maxP: 20 };
+        if (page === "頁9") return { min: 7, max: 11, ideal: "7.5", minP: 17, maxP: 21 };
+        if (page === "頁10") return { min: 7, max: 14, ideal: "8.5", minP: 17, maxP: 24 };
+        if (page === "頁11") return { min: 6.5, max: 9, ideal: "7.5", minP: 17, maxP: 20 };
+        if (page === "頁12") return { min: 6, max: 21, minP: 15, maxP: 30 };
+      }
+
+      if (album === "3") {
+        if (page === "頁3" || page === "頁4") return { min: 12, max: 21, ideal: "15", anchor: { cm: 15, p: 25 }, minP: 22, maxP: 30 };
+        if (page === "頁5" || page === "頁6") return { min: 8, max: 15, ideal: "9", minP: 20, maxP: 24 };
+        if (page === "頁7" || page === "頁9" || page === "頁10") return { min: 6, max: 10, ideal: "6~8", minP: 17, maxP: 28 };
+        if (page === "頁8") return { min: 6.5, max: 9, ideal: "7.5", minP: 17, maxP: 20 };
+        if (page === "頁11") return { min: 6, max: 21, minP: 15, maxP: 30 };
+      }
+
+      if (album === "4") {
+        if (page === "頁3" || page === "頁4") return { min: 5, max: 8, ideal: "6", minP: 8, maxP: 10 };
+        if (page === "頁8" || page === "頁9" || page === "頁10" || page === "頁11") return { min: 4, max: 13, minP: 14, maxP: 21, extraHint: "💡 可以只認領局部，一個畫面或是多個皆可！" };
+        return { min: 4.5, max: 15, minP: 10, maxP: 26, extraHint: "💡 可以只認領局部，一個畫面或是多個皆可！" };
+      }
+
+      if (album === "5") return { min: 6.5, max: 9, ideal: "7~8", minP: 20, maxP: 25 };
+
+      if (album === "6") {
+        if (page === "頁2") return { min: 5, max: 8, ideal: "6", minP: 8, maxP: 11 };
+        if (page === "頁3" || page === "頁7") return { min: 6, max: 10, ideal: "6~9", minP: 18, maxP: 24 };
+        if (page === "頁4" || page === "頁5") return { min: 7, max: 10, ideal: "7~9", minP: 18, maxP: 24 };
+        if (page === "頁6") return { min: 6, max: 9, ideal: "6.5~7", minP: 8, maxP: 10 };
+      }
+
+      if (album === "7") {
+        if (page === "頁1" || page === "頁3" || page === "頁4" || page === "頁8") return { min: 5.5, max: 8, ideal: "6.5", minP: 17, maxP: 21 };
+        if (page === "頁2") return { min: 3.5, max: 9, minP: 6, maxP: 21 };
+        if (page === "頁5") return { min: 6, max: 8, ideal: "6", minP: 17, maxP: 20 };
+        if (page === "頁6") return { min: 5, max: 7, ideal: "5.5~6", minP: 17, maxP: 20 };
+        if (page === "頁9") return { min: 6, max: 9, ideal: "7", minP: 19, maxP: 22 };
+        if (page === "頁10") return { min: 7, max: 9, ideal: "7.5", minP: 15, maxP: 19 };
+        if (page === "頁11") return { min: 6, max: 10, ideal: "8~8.5", minP: 15, maxP: 22 };
+      }
+
+      if (album === "8") {
+        if (page.includes("其他小圖")) return { isSmallPic: true, minP: 9, maxP: 12 };
+        if (page === "頁2") return { min: 5, max: 8, ideal: "6", minP: 18, maxP: 23 };
+        if (page === "頁3") return { min: 5, max: 9, ideal: "7", minP: 18, maxP: 25 };
+        if (page === "頁4") return { min: 4, max: 8, ideal: "5.5", minP: 10, maxP: 15 };
+      }
+
+      if (album === "9") {
+        if (page === "頁2") return { min: 7.5, max: 9.5, ideal: "8", minP: 17, maxP: 21 };
+        if (page === "頁3" || page === "頁6") return { min: 5.5, max: 7.5, ideal: "6", minP: 15, maxP: 19 };
+        if (page === "頁4" || page === "頁5") return { min: 5, max: 8, ideal: "6.5", minP: 17, maxP: 21 };
+        if (page === "頁7") return { min: 5, max: 7, ideal: "5.5", minP: 8, maxP: 10 };
+        if (page === "頁8") return { min: 3, max: 4, ideal: "3", minP: 8, maxP: 10 };
+        if (page === "頁9") return { min: 7, max: 9, ideal: "7", minP: 20, maxP: 24 };
+      }
+
+      if (album === "10") {
+        if (page === "頁7") return { min: 14, max: 20, ideal: "17", minP: 14, maxP: 22 };
+        if (page === "頁9" || page === "頁10") return { min: 6, max: 10, ideal: "7~8", minP: 16, maxP: 20 };
+        return { min: 14, max: 20, ideal: "18~20", minP: 20, maxP: 30 };
+      }
+
+      if (album === "11") {
+        if (page === "頁1" || page === "頁2") return { min: 6, max: 10, ideal: "7", minP: 17, maxP: 22 };
+        if (page === "頁3") return { min: 3, max: 5, ideal: "3.5", minP: 9, maxP: 13 };
+        if (page === "頁5" || page === "頁6" || page === "頁7") return { min: 5, max: 8, ideal: "6", minP: 11, maxP: 16 };
+        if (page === "頁9" || page === "頁10") return { min: 5, max: 8, ideal: "7", minP: 13, maxP: 18 };
+        if (page === "頁11" || page === "頁12") return { min: 6, max: 9, ideal: "7", minP: 13, maxP: 18 };
+        if (page === "頁14") return { min: 6, max: 8, ideal: "6.5", minP: 15, maxP: 20 };
+        if (page === "頁15") return { min: 7, max: 10, ideal: "8", minP: 11, maxP: 14 };
+        if (page === "頁16") return { min: 6, max: 9, ideal: "6.5", minP: 13, maxP: 18 };
+        if (page === "頁18") return { min: 4, max: 7, ideal: "4~4.5", minP: 11, maxP: 14 };
+        if (page === "頁19") return { min: 6, max: 8, ideal: "7", minP: 13, maxP: 19 };
+        if (page === "頁21") return { min: 8, max: 13, ideal: "9", minP: 19, maxP: 26 };
+        if (page === "頁22") return { min: 6, max: 8, ideal: "7", minP: 12, maxP: 15 };
+        if (page === "頁23") return { min: 5, max: 8, ideal: "6", minP: 13, maxP: 16 };
+        if (page === "頁24") return { min: 6, max: 9, ideal: "7.5", minP: 18, maxP: 24 };
+        if (page === "頁25") return { min: 7, max: 9, ideal: "8", minP: 17, maxP: 20 };
+        if (page === "頁26") return { min: 5.5, max: 8.5, ideal: "6", minP: 11, maxP: 15 };
+        if (page === "頁27") return { min: 5, max: 7.5, ideal: "6~6.5", minP: 12, maxP: 15 };
+      }
+
+      if (album === "12") {
+        if (page === "頁1") return { min: 6, max: 14, ideal: "10", minP: 11, maxP: 20 };
+        if (page === "頁2") return { min: 7, max: 13, ideal: "8.5", minP: 12, maxP: 20 };
+        if (page === "頁3") return { min: 4, max: 6, ideal: "4.5", minP: 11, maxP: 14 };
+        if (page === "頁4") return { min: 6, max: 8, ideal: "7", minP: 10, maxP: 13 };
+        if (page === "頁5") return { min: 7, max: 10, ideal: "8.5", minP: 12, maxP: 16 };
+        if (page === "頁6") return { min: 5, max: 6, ideal: "5", minP: 6.5, maxP: 8 };
+        if (page === "頁7") return { min: 6, max: 8, ideal: "6.5", minP: 6.5, maxP: 8 };
+      }
+
+      if (album === "13") {
+        const hint = "💡 組圖提示：報價是依據圖片範例，可以選擇認領如圖示或是做成組圖，認領一個小圖也可以，需要傳送訊息詢問報價。";
+        if (page.includes("其他小圖")) return { isSmallPic: true, minP: 8, maxP: 11, extraHint: hint };
+        if (page === "頁2" || page === "頁3") return { min: 8, max: 11, ideal: "8.5", minP: 20, maxP: 25, extraHint: hint };
+        if (page === "頁4" || page === "頁5") return { min: 8, max: 12, ideal: "11", minP: 16, maxP: 22, extraHint: hint };
+      }
+
+      if (album === "14") {
+        const hint = "💡 組圖提示：報價是依據圖片範例，可以選擇認領如圖示或是做成組圖，認領一個小圖也可以，需要傳送訊息詢問報價。";
+        if (page === "頁2" || page === "頁3" || page === "頁4") return { min: 5, max: 9, ideal: "5~6", minP: 11, maxP: 15, extraHint: hint };
+        if (page === "頁5") return { min: 3, max: 5, ideal: "4", minP: 10, maxP: 13, extraHint: hint };
+        if (page === "頁6" || page === "頁7") return { min: 5, max: 7, ideal: "6", minP: 10, maxP: 13, extraHint: hint };
+        if (page === "頁8") return { min: 4, max: 6, ideal: "4.5", minP: 11, maxP: 14, extraHint: hint };
+      }
+
+      return { min: 5, max: 15, minP: 10, maxP: 20 };
+    }
+
+    const globalSteps = [];
+    for (let c = 3; c <= 20; c += 0.5) {
+      globalSteps.push(c);
+    }
+
+    function onAlbumChange() {
+      const album = albumSelect.value;
+      if (!album) {
+        pageSelect.innerHTML = `<option value="">-</option>`;
+        sizeSelect.innerHTML = `<option value="">-</option>`;
+        onPageChange();
+        return;
+      }
+
+      const pages = albumPagesConfig[album] || [];
+      pageSelect.innerHTML = `<option value="">-</option>` + pages.map(p => `<option value="${p}">${p}</option>`).join("");
+      onPageChange();
+    }
+
+    function onPageChange() {
+      const album = albumSelect.value;
+      const page = pageSelect.value;
+
+      if (!album || !page) {
+        sizeSelect.innerHTML = `<option value="">-</option>`;
+        featureHintBox.style.display = "none";
+        cardPart.classList.remove("disabled-card");
+        cardSize.classList.remove("disabled-card");
+        partSelect.disabled = false;
+        sizeSelect.disabled = false;
+        claimedStatusBox.style.display = "none";
+        calculatePrice();
+        return;
+      }
+
+      const rule = getRule(album, page);
+      if (!rule) return;
+
+      // 1. 已認領狀態
+      if (rule.isClaimed) {
+        cardPart.classList.add("disabled-card");
+        cardSize.classList.add("disabled-card");
+        partSelect.disabled = true;
+        sizeSelect.disabled = true;
+        sizeSelect.innerHTML = `<option value="claimed">已認領</option>`;
+
+        featureHintBox.innerHTML = `✨ 刺青師建議理想尺寸: ${rule.ideal} cm<br>⚠️ 此作品目前已認領！`;
+        featureHintBox.style.display = "block";
+
+        originalPriceRow.style.display = "none";
+        discountPriceRow.style.display = "none";
+        claimedStatusBox.style.display = "block";
+        bodyWarningBox.style.display = "none";
+        return;
+      }
+
+      // 2. 其他小圖狀態
+      if (rule.isSmallPic) {
+        cardPart.classList.add("disabled-card");
+        cardSize.classList.add("disabled-card");
+        partSelect.disabled = true;
+        sizeSelect.disabled = true;
+        sizeSelect.innerHTML = `<option value="small_pic">小圖固定區間</option>`;
+
+        claimedStatusBox.style.display = "none";
+        originalPriceRow.style.display = "flex";
+        discountPriceRow.style.display = "flex";
+        discountBadge.style.display = "inline-block";
+
+        let hint = "✨ 本頁為精緻小圖專區，單圖預估價格";
+        if (rule.extraHint) hint += `<br>${rule.extraHint}`;
+        featureHintBox.innerHTML = hint;
+        featureHintBox.style.display = "block";
+
+        calculatePrice();
+        return;
+      }
+
+      // 3. 正常認領圖
+      cardPart.classList.remove("disabled-card");
+      cardSize.classList.remove("disabled-card");
+      partSelect.disabled = false;
+      sizeSelect.disabled = false;
+      claimedStatusBox.style.display = "none";
+
+      const validSteps = globalSteps.filter(cm => cm >= rule.min && cm <= rule.max && cm <= 20);
+      let optionsHtml = `<option value="">-</option>` + validSteps.map(cm => `<option value="${cm}">${cm} cm</option>`).join("");
+
+      if (rule.max > 20) {
+        optionsHtml += `<option value="20_up">20 cm up</option>`;
+      }
+
+      optionsHtml += `<option value="unknown">不確定</option>`;
+      sizeSelect.innerHTML = optionsHtml;
+
+      // 提示文字（統一格式，無價格）
+      let hint = "";
+      if (rule.ideal) {
+        hint += `✨ 刺青師建議理想尺寸: ${rule.ideal} cm`;
+      }
+      if (rule.extraHint) {
+        hint += hint ? `<br>${rule.extraHint}` : rule.extraHint;
+      }
+
+      if (hint) {
+        featureHintBox.innerHTML = hint;
+        featureHintBox.style.display = "block";
+      } else {
+        featureHintBox.style.display = "none";
+      }
+
+      calculatePrice();
+    }
+
+    function formatMoney(num) {
+      return Math.round(num).toLocaleString();
+    }
+
+    // ================= 價格計算 =================
+    function calculatePrice() {
+      const album = albumSelect.value;
+      const page = pageSelect.value;
+      const rule = getRule(album, page);
+
+      if (rule && rule.isClaimed) return;
+
+      const part = partSelect.value;
+      const sizeVal = sizeSelect.value;
+
+      // 若尚未完全選中（包含相冊、頁數、部位、尺寸任一為空）
+      const isSmallPic = rule && rule.isSmallPic;
+      const notReady = (!album || !page || (!isSmallPic && (!part || !sizeVal)));
+
+      if (notReady) {
+        originalPriceRow.style.display = "none";
+        discountBadge.style.display = "none";
+        discountPriceRow.style.display = "flex";
+        discountPriceText.className = "result-price-prompt";
+        discountPriceText.innerText = "選擇你要的圖以及選項後將會為你計算價格";
+        bodyWarningBox.style.display = "none";
+        return;
+      }
+
+      discountPriceText.className = "result-price-big";
+
+      // 判斷是否為特殊部位（非四肢即為特殊部位）
+      const standardParts = ["前臂", "上臂", "小腿", "大腿"];
+      const isSpecialPart = part && !standardParts.includes(part);
+
+      // 特殊部位固定加 1k (NT$ 1,000)
+      const specialAddK = isSpecialPart ? 1 : 0;
+
+      if (isSpecialPart && !isSmallPic) {
+        bodyWarningBox.style.display = "block";
+      } else {
+        bodyWarningBox.style.display = "none";
+      }
+
+      // 小圖專區
+      if (isSmallPic) {
+        originalPriceRow.style.display = "flex";
+        discountPriceRow.style.display = "flex";
+        discountBadge.style.display = "inline-block";
+        discountPriceText.style.fontSize = "26px";
+
+        let minRaw = rule.minP * 1000;
+        let maxRaw = rule.maxP * 1000;
+        let minDisc = Math.round(minRaw * 0.9);
+        let maxDisc = Math.round(maxRaw * 0.9);
+
+        originalPriceText.innerText = `NT$ ${formatMoney(minRaw)} ~ ${formatMoney(maxRaw)}`;
+        discountPriceText.innerText = `NT$ ${formatMoney(minDisc)} ~ ${formatMoney(maxDisc)}`;
+        return;
+      }
+
+      // 選「不確定」
+      if (sizeVal === "unknown") {
+        originalPriceRow.style.display = "flex";
+        discountPriceRow.style.display = "flex";
+        discountBadge.style.display = "inline-block";
+        discountPriceText.style.fontSize = "24px";
+
+        let minRaw = (rule.minP + specialAddK) * 1000;
+        let maxRaw = (rule.maxP + specialAddK) * 1000;
+
+        let minDisc = Math.round(minRaw * 0.9);
+        let maxDisc = Math.round(maxRaw * 0.9);
+
+        originalPriceText.innerText = `NT$ ${formatMoney(minRaw)} ~ ${formatMoney(maxRaw)}`;
+        discountPriceText.innerText = `NT$ ${formatMoney(minDisc)} ~ ${formatMoney(maxDisc)}`;
+        return;
+      }
+
+      // 選「20 cm up」
+      if (sizeVal === "20_up") {
+        originalPriceRow.style.display = "flex";
+        discountPriceRow.style.display = "flex";
+        discountBadge.style.display = "inline-block";
+        discountPriceText.style.fontSize = "26px";
+
+        let baseP = ((rule.maxP || 30) + specialAddK) * 1000;
+        let discP = Math.round(baseP * 0.9);
+
+        originalPriceText.innerText = `NT$ ${formatMoney(baseP)} 以上`;
+        discountPriceText.innerText = `NT$ ${formatMoney(discP)} 以上`;
+        return;
+      }
+
+      // 一般單一公分數計算
+      const cm = parseFloat(sizeVal);
+      let rawEstimateK = 0;
+
+      if (rule.anchor) {
+        let ancCm = rule.anchor.cm;
+        let ancP = rule.anchor.p;
+
+        if (cm === ancCm) {
+          rawEstimateK = ancP;
+        } else if (cm < ancCm) {
+          let ratio = (cm - rule.min) / (ancCm - rule.min || 1);
+          rawEstimateK = rule.minP + ratio * (ancP - rule.minP);
+        } else {
+          let ratio = (cm - ancCm) / (rule.max - ancCm || 1);
+          rawEstimateK = ancP + ratio * (rule.maxP - ancP);
+        }
+      } else {
+        let ratio = (cm - rule.min) / (rule.max - rule.min || 1);
+        rawEstimateK = rule.minP + ratio * (rule.maxP - rule.minP);
+      }
+
+      let finalRawPrice = Math.round((rawEstimateK + specialAddK) * 1000);
+      let finalDiscountPrice = Math.round(finalRawPrice * 0.9);
+
+      originalPriceRow.style.display = "flex";
+      discountPriceRow.style.display = "flex";
+      discountBadge.style.display = "inline-block";
+      discountPriceText.style.fontSize = "26px";
+
+      originalPriceText.innerText = `NT$ ${formatMoney(finalRawPrice)}`;
+      discountPriceText.innerText = `NT$ ${formatMoney(finalDiscountPrice)}`;
+    }
+
+    // 初始化重置為 -
+    onAlbumChange();
+  </script>
+
+</body></html>
