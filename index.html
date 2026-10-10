@@ -1,7 +1,7 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>tattooist.jony 認領圖價格試算</title>
   <style>
-    /* ================= 全域設定 ================= */
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -21,7 +21,6 @@
       color: inherit;
     }
 
-    /* ================= 頂部橫幅與頭像 ================= */
     .banner-container {
       position: relative;
       background-color: #1a1a1a;
@@ -75,7 +74,6 @@
       margin-bottom: 10px;
     }
 
-    /* 活動說明文字區塊 */
     .intro-box {
       font-size: 13.5px;
       color: #333333;
@@ -96,7 +94,6 @@
       margin-bottom: 0;
     }
 
-    /* Instagram 按鈕 */
     .ig-btn {
       display: inline-flex;
       align-items: center;
@@ -125,7 +122,6 @@
       letter-spacing: 0.3px;
     }
 
-    /* ================= 頂部三大分頁標籤 ================= */
     .tabs-bar {
       display: flex;
       justify-content: center;
@@ -163,7 +159,6 @@
       border-radius: 2px;
     }
 
-    /* ================= 水平滑動容器 ================= */
     .swipe-container {
       display: flex;
       width: 100vw;
@@ -187,7 +182,6 @@
       box-sizing: border-box;
     }
 
-    /* ================= 面板 1：作品列表 (雙欄 Behance 風格) ================= */
     .gallery-container {
       max-width: 600px;
       margin: 0 auto;
@@ -272,7 +266,6 @@
       background-color: #f4f7ff;
     }
 
-    /* ================= 面板 2：資訊頁 ================= */
     .info-container {
       max-width: 500px;
       margin: 0 auto;
@@ -367,7 +360,6 @@
       opacity: 0.9;
     }
 
-    /* ================= 面板 3：價格試算頁 ================= */
     .calc-container {
       max-width: 500px;
       margin: 0 auto;
@@ -483,7 +475,6 @@
       text-align: left;
     }
 
-    /* AI 估價結果卡片 */
     .result-card {
       background-color: #111111;
       color: #ffffff;
@@ -527,7 +518,6 @@
       letter-spacing: -0.3px;
     }
 
-    /* 尚未選齊時的引導字體樣式 */
     .result-price-prompt {
       font-size: 14.5px;
       font-weight: 600;
@@ -590,8 +580,6 @@
     }
   </style>
 
-
-  <!-- 頂部橫幅與頭像 (avatar.jpg) -->
   <div class="banner-container">
     <div class="avatar-wrapper">
       <img src="images/avatar.jpg" alt="tattooist jony" onerror="this.src='https://via.placeholder.com/150?text=Jony'" />
@@ -602,7 +590,6 @@
     <div class="main-title-en">tattooist.jony</div>
     <div class="main-title-zh">認領圖價格試算</div>
 
-    <!-- 活動說明文案 -->
     <div class="intro-box">
       <p>認領圖優惠活動主要是因為我很想刺</p>
       <p>快年底了，希望認領圖不會放到過年</p>
@@ -613,26 +600,21 @@
       <p>如果你想包大面積我也超歡迎來討論模特(互惠價格)</p>
     </div>
 
-    <!-- Instagram 連結按鈕 -->
     <a class="ig-btn" href="https://www.instagram.com/tattooist.jony?mdxt=M243b3NmaDkzMHBy" target="_blank" rel="noopener noreferrer">
       <span>📷 點此前​往 Instagram 看更多作品</span>
     </a>
 
-    <!-- 下方查看提示 -->
     <div class="sub-prompt">認領圖可點擊下方查看 ↓</div>
   </div>
 
-  <!-- 分頁選單 (作品 / 資訊 / 價格試算) -->
   <div class="tabs-bar">
     <div class="tab-item active" id="tab-artworks" onclick="goToSlide(0)">作品</div>
     <div class="tab-item" id="tab-info" onclick="goToSlide(1)">資訊</div>
     <div class="tab-item" id="tab-calc" onclick="goToSlide(2)">價格試算</div>
   </div>
 
-  <!-- 橫向滑動區塊 -->
   <div class="swipe-container" id="swipe-container">
 
-    <!-- ================= 頁面 1：作品列表 ================= -->
     <div class="panel">
       <div class="gallery-container">
         <div class="grid">
@@ -729,10 +711,9 @@
       </div>
     </div>
 
-    <!-- ================= 頁面 2：資訊頁 ================= -->
     <div class="panel">
       <div class="info-container">
-        
+
         <div class="info-section">
           <div class="info-title">位置</div>
           <div class="location-row">
@@ -771,7 +752,6 @@
       </div>
     </div>
 
-    <!-- ================= 頁面 3：價格試算頁 ================= -->
     <div class="panel">
       <div class="calc-container">
 
@@ -790,10 +770,8 @@
           <span>💬 LINE連結請點此詢問</span>
         </a>
 
-        <!-- 四格面板 (初始皆為 -) -->
         <div class="stats-calculator-grid">
-          
-          <!-- 左上格：認領圖相冊 -->
+
           <div class="stat-card" id="card-album">
             <select class="stat-select" id="album-select" onchange="onAlbumChange();">
               <option value="">-</option>
@@ -815,7 +793,6 @@
             <div class="stat-label">認領圖相冊</div>
           </div>
 
-          <!-- 右上格：刺青部位 -->
           <div class="stat-card" id="card-part">
             <select class="stat-select" id="part-select" onchange="calculatePrice();">
               <option value="">-</option>
@@ -833,7 +810,6 @@
             <div class="stat-label">刺青部位</div>
           </div>
 
-          <!-- 左下格：認領圖選擇 -->
           <div class="stat-card" id="card-page">
             <select class="stat-select" id="page-select" onchange="onPageChange();">
               <option value="">-</option>
@@ -842,7 +818,6 @@
             <div class="stat-sub-hint">(請查看你想要的圖在相簿第幾張)</div>
           </div>
 
-          <!-- 右下格：預估尺寸 -->
           <div class="stat-card" id="card-size">
             <select class="stat-select" id="size-select" onchange="calculatePrice();">
               <option value="">-</option>
@@ -852,13 +827,11 @@
 
         </div>
 
-        <!-- 刺青師建議理想尺寸與特色提示條 -->
         <div class="feature-hint-box" id="feature-hint-box"></div>
 
-        <!-- AI 估價結果卡片 -->
         <div class="result-card">
           <div class="result-sub">AI預估價格區間</div>
-          
+
           <div class="original-price-row" id="original-price-row" style="display: none;">
             <span>原價</span>
             <span id="original-price-text"></span>
@@ -888,7 +861,6 @@
   </div>
 
   <script>
-    // ================= 滑動與標籤切換 =================
     const container = document.getElementById("swipe-container");
     const tabs = [
       document.getElementById("tab-artworks"),
@@ -915,7 +887,6 @@
       });
     });
 
-    // ================= DOM 元素 =================
     const albumSelect = document.getElementById("album-select");
     const pageSelect = document.getElementById("page-select");
     const sizeSelect = document.getElementById("size-select");
@@ -933,7 +904,6 @@
     const bodyWarningBox = document.getElementById("body-warning-box");
     const featureHintBox = document.getElementById("feature-hint-box");
 
-    // ================= 頁碼清單配置 =================
     const albumPagesConfig = {
       1: ["頁1 顏料", "頁1 星空長條底圖", "頁2", "頁3", "頁4", "頁5"],
       2: ["頁2 其他小圖", "頁3", "頁4", "頁5", "頁6", "頁7", "頁8", "頁9", "頁10", "頁11", "頁12"],
@@ -1117,7 +1087,6 @@
       const rule = getRule(album, page);
       if (!rule) return;
 
-      // 1. 已認領狀態
       if (rule.isClaimed) {
         cardPart.classList.add("disabled-card");
         cardSize.classList.add("disabled-card");
@@ -1135,7 +1104,6 @@
         return;
       }
 
-      // 2. 其他小圖狀態
       if (rule.isSmallPic) {
         cardPart.classList.add("disabled-card");
         cardSize.classList.add("disabled-card");
@@ -1157,7 +1125,6 @@
         return;
       }
 
-      // 3. 正常認領圖
       cardPart.classList.remove("disabled-card");
       cardSize.classList.remove("disabled-card");
       partSelect.disabled = false;
@@ -1174,7 +1141,6 @@
       optionsHtml += `<option value="unknown">不確定</option>`;
       sizeSelect.innerHTML = optionsHtml;
 
-      // 提示文字（統一格式，無價格）
       let hint = "";
       if (rule.ideal) {
         hint += `✨ 刺青師建議理想尺寸: ${rule.ideal} cm`;
@@ -1197,7 +1163,6 @@
       return Math.round(num).toLocaleString();
     }
 
-    // ================= 價格計算 =================
     function calculatePrice() {
       const album = albumSelect.value;
       const page = pageSelect.value;
@@ -1208,7 +1173,6 @@
       const part = partSelect.value;
       const sizeVal = sizeSelect.value;
 
-      // 若尚未完全選中（包含相冊、頁數、部位、尺寸任一為空）
       const isSmallPic = rule && rule.isSmallPic;
       const notReady = (!album || !page || (!isSmallPic && (!part || !sizeVal)));
 
@@ -1224,11 +1188,9 @@
 
       discountPriceText.className = "result-price-big";
 
-      // 判斷是否為特殊部位（非四肢即為特殊部位）
       const standardParts = ["前臂", "上臂", "小腿", "大腿"];
       const isSpecialPart = part && !standardParts.includes(part);
 
-      // 特殊部位固定加 1k (NT$ 1,000)
       const specialAddK = isSpecialPart ? 1 : 0;
 
       if (isSpecialPart && !isSmallPic) {
@@ -1237,7 +1199,6 @@
         bodyWarningBox.style.display = "none";
       }
 
-      // 小圖專區
       if (isSmallPic) {
         originalPriceRow.style.display = "flex";
         discountPriceRow.style.display = "flex";
@@ -1254,7 +1215,6 @@
         return;
       }
 
-      // 選「不確定」
       if (sizeVal === "unknown") {
         originalPriceRow.style.display = "flex";
         discountPriceRow.style.display = "flex";
@@ -1272,7 +1232,6 @@
         return;
       }
 
-      // 選「20 cm up」
       if (sizeVal === "20_up") {
         originalPriceRow.style.display = "flex";
         discountPriceRow.style.display = "flex";
@@ -1287,7 +1246,6 @@
         return;
       }
 
-      // 一般單一公分數計算
       const cm = parseFloat(sizeVal);
       let rawEstimateK = 0;
 
@@ -1321,7 +1279,6 @@
       discountPriceText.innerText = `NT$ ${formatMoney(finalDiscountPrice)}`;
     }
 
-    // 初始化重置為 -
     onAlbumChange();
   </script>
 
